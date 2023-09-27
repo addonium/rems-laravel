@@ -33,11 +33,13 @@
 </head>
 <body>
     <div id="app">
+    <div class="site-loader"></div>
+      <div class="site-wrap">
        <div class="site-navbar mt-4">
         <div class="container py-1">
           <div class="row align-items-center">
             <div class="col-8 col-md-8 col-lg-4">
-              <h1 class="mb-0"><a href="index.html" class="text-white h2 mb-0"><strong>Homeland<span class="text-danger">.</span></strong></a></h1>
+              <h1 class="mb-0"><a href="{{url('/')}}" class="text-white h2 mb-0"><strong>{{config('app.name', 'Laravel')}}<span class="text-danger">.</span></strong></a></h1>
             </div>
             <div class="col-4 col-md-4 col-lg-8">
               <nav class="site-navigation text-right text-md-right" role="navigation">
@@ -61,8 +63,38 @@
                   </li>
                   <li><a href="about.html">About</a></li>
                   <li><a href="contact.html">Contact</a></li>
-                  <li><a href="login.html">Login</a></li>
-                  <li><a href="register.html">Register</a></li>
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li>
+                                    <a href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
                 </ul>
               </nav>
             </div>
@@ -70,6 +102,7 @@
 
           </div>
         </div>
+      </div>
       </div>
 
       <div class="slide-one-item home-slider owl-carousel">
@@ -104,6 +137,71 @@
         <main class="py-4">
             @yield('content')
         </main>
+         <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="mb-5">
+              <h3 class="footer-heading mb-4">About Homeland</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
+            </div>
+
+
+
+          </div>
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Navigations</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">Buy</a></li>
+                  <li><a href="#">Rent</a></li>
+                  <li><a href="#">Properties</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">Terms</a></li>
+                </ul>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h3 class="footer-heading mb-4">Follow Us</h3>
+
+                <div>
+                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+                </div>
+
+
+
+          </div>
+
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
     </div>
 
   <script src="{{asset('assets/js/jquery-3.3.1.min.js')}}"></script>
